@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PeaceHub - Mental Health Wellness Platform</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #4361ee;
+      --primary-dark: #3a0ca3;
+      --secondary: #4cc9f0;
+      --accent: #f72585;
+      --light: #f8f9fa;
+      --dark: #212529;
+      --gray: #6c757d;
+      --success: #4bb543;
+      --error: #ff3333;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', 'Segoe UI', system-ui, -apple-system, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #e0f7fa, #b3e5fc);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: all 0.5s ease;
+      color: var(--dark);
+      line-height: 1.6;
+    }
+
+    body.dark-mode {
+      background: linear-gradient(135deg, #0f172a, #1e293b);
+      color: var(--light);
+    }
+
+    /* Header Styles */
+    header {
+      background-color: rgba(255, 255, 255, 0.9);
+      width: 100%;
+      padding: 1rem 2rem;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      transition: all 0.3s;
+    }
+
+    .dark-mode header {
+      background-color: rgba(15, 23, 42, 0.95);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .header-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    .logo i {
+      font-size: 2rem;
+    }
+
+    .dark-mode .logo {
+      color: var(--secondary);
+    }
+
+    .nav-menu ul {
+      list-style: none;
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .nav-menu ul li a {
+      text-decoration: none;
+      color: var(--dark);
+      font-weight: 500;
+      transition: all 0.3s;
+      padding: 0.5rem 0;
+      position: relative;
+    }
+
+    .nav-menu ul li a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: var(--primary);
+      transition: width 0.3s;
+    }
+
+    .nav-menu ul li a:hover::after {
+      width: 100%;
+    }
+
+    .dark-mode .nav-menu ul li a {
+      color: var(--light);
+    }
+
+    .dark-mode .nav-menu ul li a::after {
+      background-color: var(--secondary);
+    }
+
+    /* Main Content */
+    .main-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      max-width: 1200px;
+      padding: 2rem;
+      gap: 3rem;
+    }
+
+    /* Hero Section */
+    .hero {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 2rem;
+      width: 100%;
+      margin-top: 2rem;
+    }
+
+    .hero-content {
+      flex: 1;
+      min-width: 300px;
+    }
+
+    .hero-title {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      line-height: 1.2;
+      background: linear-gradient(to right, var(--primary), var(--accent));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .dark-mode .hero-title {
+      background: linear-gradient(to right, var(--secondary), #f8bbd0);
+      -webkit-background-clip: text;
+      background-clip: text;
+    }
+
+    .hero-subtitle {
+      font-size: 1.25rem;
+      color: var(--gray);
+      margin-bottom: 2rem;
+      max-width: 600px;
+    }
+
+    .dark-mode .hero-subtitle {
+      color: #cbd5e1;
+    }
+
+    .hero-image {
+      flex: 1;
+      min-width: 300px;
+      max-width: 500px;
+    }
+
+    .hero-image img {
+      width: 100%;
+      height: auto;
+      border-radius: 1rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .dark-mode .hero-image img {
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    /* About Section */
+    .about-section {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(10px);
+      border-radius: 1rem;
+      padding: 2.5rem;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      margin-top: 2rem;
+    }
+
+    .dark-mode .about-section {
+      background: rgba(15, 23, 42, 0.8);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .section-title {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      color: var(--primary);
+      text-align: center;
+    }
+
+    .dark-mode .section-title {
+      color: var(--secondary);
+    }
+
+    .about-content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .about-card {
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 0.75rem;
+      padding: 1.5rem;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .about-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .dark-mode .about-card {
+      background: rgba(30, 41, 59, 0.9);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    .about-card h3 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .dark-mode .about-card h3 {
+      color: var(--secondary);
+    }
+
+    .about-card i {
+      font-size: 1.5rem;
+    }
+
+    /* Login Container */
+    .login-container {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 1.5rem;
+      padding: 2.5rem;
+      width: 100%;
+      max-width: 500px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      margin: 3rem auto;
+      transition: all 0.3s;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    .dark-mode .login-container {
+      background: rgba(15, 23, 42, 0.95);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .login-title {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      color: var(--primary);
+    }
+
+    .dark-mode .login-title {
+      color: var(--secondary);
+    }
+
+    .login-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      text-align: left;
+    }
+
+    .form-label {
+      font-weight: 500;
+      color: var(--dark);
+      font-size: 0.95rem;
+    }
+
+    .dark-mode .form-label {
+      color: var(--light);
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border-radius: 0.5rem;
+      border: 1px solid #ced4da;
+      font-size: 1rem;
+      transition: all 0.3s;
+      background-color: var(--light);
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+    }
+
+    .dark-mode .form-input {
+      background-color: rgba(30, 41, 59, 0.8);
+      border-color: #334155;
+      color: var(--light);
+    }
+
+    .dark-mode .form-input:focus {
+      border-color: var(--secondary);
+      box-shadow: 0 0 0 3px rgba(76, 201, 240, 0.2);
+    }
+
+    .login-btn {
+      margin-top: 1rem;
+      width: 100%;
+      padding: 0.75rem;
+      background: linear-gradient(to right, var(--primary), var(--primary-dark));
+      border: none;
+      border-radius: 0.5rem;
+      color: white;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .login-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .dark-mode .login-btn {
+      background: linear-gradient(to right, var(--secondary), #0288d1);
+    }
+
+    .form-footer {
+      margin-top: 1.5rem;
+      font-size: 0.9rem;
+      color: var(--gray);
+    }
+
+    .dark-mode .form-footer {
+      color: #94a3b8;
+    }
+
+    .login-message {
+      margin-top: 1rem;
+      padding: 0.75rem;
+      border-radius: 0.5rem;
+      font-weight: 500;
+      display: none;
+    }
+
+    .error-message {
+      background-color: rgba(255, 51, 51, 0.1);
+      color: var(--error);
+      border: 1px solid rgba(255, 51, 51, 0.3);
+    }
+
+    /* Features Section */
+    .features-section {
+      width: 100%;
+      margin-top: 3rem;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .feature-card {
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 0.75rem;
+      padding: 1.5rem;
+      text-align: center;
+      transition: all 0.3s;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .dark-mode .feature-card {
+      background: rgba(30, 41, 59, 0.9);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    .feature-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      color: var(--primary);
+    }
+
+    .dark-mode .feature-icon {
+      color: var(--secondary);
+    }
+
+    .feature-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+    }
+
+    .feature-desc {
+      color: var(--gray);
+      font-size: 0.9rem;
+    }
+
+    .dark-mode .feature-desc {
+      color: #94a3b8;
+    }
+
+    /* Footer */
+    footer {
+      width: 100%;
+      background-color: rgba(0, 0, 0, 0.05);
+      padding: 2rem;
+      text-align: center;
+      margin-top: auto;
+      color: var(--gray);
+      font-size: 0.9rem;
+    }
+
+    .dark-mode footer {
+      background-color: rgba(0, 0, 0, 0.2);
+      color: #94a3b8;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .footer-links a {
+      color: var(--gray);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .footer-links a:hover {
+      color: var(--primary);
+    }
+
+    .dark-mode .footer-links a {
+      color: #94a3b8;
+    }
+
+    .dark-mode .footer-links a:hover {
+      color: var(--secondary);
+    }
+
+    /* Dark Mode Toggle */
+    .dark-mode-toggle {
+      position: fixed;
+      top: 1.5rem;
+      right: 1.5rem;
+      width: 3rem;
+      height: 1.5rem;
+      background: rgba(0, 0, 0, 0.1);
+      border-radius: 0.75rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      padding: 0 0.25rem;
+      transition: all 0.3s;
+      z-index: 1000;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    .dark-mode-toggle:hover {
+      background: rgba(0, 0, 0, 0.2);
+    }
+
+    .dark-mode .dark-mode-toggle {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .toggle-slider {
+      width: 1.25rem;
+      height: 1.25rem;
+      background: var(--light);
+      border-radius: 50%;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .dark-mode .toggle-slider {
+      transform: translateX(1.25rem);
+      background: var(--secondary);
+    }
+
+    .toggle-icon {
+      font-size: 0.7rem;
+      color: var(--dark);
+    }
+
+    .dark-mode .toggle-icon {
+      color: var(--light);
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+      .header-container {
+        flex-direction: column;
+        gap: 1rem;
+      }
+      
+      .nav-menu ul {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      
+      .hero-title {
+        font-size: 2.25rem;
+      }
+      
+      .hero-subtitle {
+        font-size: 1.1rem;
+      }
+      
+      .login-container {
+        padding: 1.5rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-title {
+        font-size: 2rem;
+      }
+      
+      .section-title {
+        font-size: 1.75rem;
+      }
+      
+      .login-container {
+        margin: 1.5rem auto;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Dark Mode Toggle -->
+  <div class="dark-mode-toggle" id="darkModeToggle">
+    <div class="toggle-slider">
+      <i class="fas fa-moon toggle-icon"></i>
+    </div>
+  </div>
+
+  <header>
+    <div class="header-container">
+      <a href="#" class="logo">
+        <i class="fas fa-peace"></i>
+        <span>PeaceHub</span>
+      </a>
+      <nav class="nav-menu">
+        <ul>
+          <li><a href="#" onclick="checkLogin('01_index.html')">Home</a></li>
+          <li><a href="#" onclick="checkLogin('02_articles.html')">Articles</a></li>
+          <li><a href="#" onclick="checkLogin('03_meditation.html')">Meditation</a></li>
+          <li><a href="#" onclick="checkLogin('05_chat.html')">Chat Support</a></li>
+          <li><a href="#" onclick="checkLogin('04_Doctors.html')">Professionals</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <div class="main-container">
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-content">
+        <h1 class="hero-title">Your Journey to Mental Wellness Starts Here</h1>
+        <p class="hero-subtitle">
+          PeaceHub is a safe space designed to support your mental health journey with 
+          expert resources, guided practices, and a compassionate community.
+        </p>
+        <div class="login-container" id="login-section">
+          <h2 class="login-title">Welcome Back</h2>
+          <form id="login-form" class="login-form">
+            <div class="form-group">
+              <label for="email" class="form-label">Email</label>
+              <input type="email" id="email" class="form-input" placeholder="Enter your email" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="password" class="form-label">Password</label>
+              <input type="password" id="password" class="form-input" placeholder="Enter your password" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="contact" class="form-label">Contact Number</label>
+              <input type="tel" id="contact" class="form-input" placeholder="Your phone number" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="parent-contact" class="form-label">Emergency Contact</label>
+              <input type="tel" id="parent-contact" class="form-input" placeholder="Trusted person's number" required>
+            </div>
+            
+            <button type="submit" class="login-btn">Sign In</button>
+          </form>
+          <div class="form-footer">
+            Your mental health matters. All information is kept confidential and secure.
+          </div>
+          <div class="login-message error-message" id="loginMessage">
+            Please login to access this page
+          </div>
+        </div>
+      </div>
+      <div class="hero-image">
+        <img src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Peaceful meditation">
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about-section">
+      <h2 class="section-title">About PeaceHub</h2>
+      <div class="about-content">
+        <div class="about-card">
+          <h3><i class="fas fa-heart"></i> Our Mission</h3>
+          <p>PeaceHub was created to make mental health support accessible to everyone. We believe that taking care of your mind is just as important as taking care of your body, and we're here to provide the tools and resources you need on your wellness journey.</p>
+        </div>
+        <div class="about-card">
+          <h3><i class="fas fa-shield-alt"></i> Safe Space</h3>
+          <p>We provide a judgment-free zone where you can explore your feelings, learn coping strategies, and connect with professionals. Your privacy and comfort are our top priorities in this safe digital environment.</p>
+        </div>
+        <div class="about-card">
+          <h3><i class="fas fa-hands-helping"></i> Holistic Approach</h3>
+          <p>PeaceHub combines evidence-based techniques with holistic practices to address mental health from multiple angles - psychological, emotional, and physical wellbeing for comprehensive care.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section">
+      <h2 class="section-title">How PeaceHub Helps You</h2>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-book-open"></i>
+          </div>
+          <h3 class="feature-title">Educational Articles</h3>
+          <p class="feature-desc">Learn about mental health conditions, coping mechanisms, and wellness strategies through our curated library.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-headphones"></i>
+          </div>
+          <h3 class="feature-title">Guided Meditations</h3>
+          <p class="feature-desc">Reduce stress and anxiety with our collection of guided meditation sessions for all experience levels.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-comments"></i>
+          </div>
+          <h3 class="feature-title">Supportive Community</h3>
+          <p class="feature-desc">Connect with others who understand what you're going through in our moderated, supportive chat spaces.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-user-md"></i>
+          </div>
+          <h3 class="feature-title">Professional Help</h3>
+          <p class="feature-desc">Access licensed mental health professionals when you need expert guidance and support.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    <div class="footer-links">
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Service</a>
+      <a href="#">Contact Us</a>
+      <a href="#">Crisis Resources</a>
+    </div>
+    <p>&copy; 2023 PeaceHub. All rights reserved.</p>
+    <p>If you're in crisis, please call your local emergency number or mental health hotline.</p>
+  </footer>
+
+  <script>
+    // Check if user is logged in on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      // Check dark mode preference
+      if (localStorage.getItem('darkMode') === 'enabled') {
+        document.body.classList.add('dark-mode');
+      }
+      
+      // Check login status
+      if (localStorage.getItem('isLoggedIn') === 'true') {
+        // User is logged in, redirect to index
+        window.location.href = '01_index.html';
+      }
+    });
+
+    // Dark mode toggle functionality
+    document.getElementById('darkModeToggle').addEventListener('click', function() {
+      document.body.classList.toggle('dark-mode');
+      
+      // Save preference to localStorage
+      if (document.body.classList.contains('dark-mode')) {
+        localStorage.setItem('darkMode', 'enabled');
+      } else {
+        localStorage.setItem('darkMode', 'disabled');
+      }
+    });
+
+    // Login form submission
+    document.getElementById('login-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const contact = document.getElementById('contact').value;
+      const parentContact = document.getElementById('parent-contact').value;
+      
+      // Simple validation - in a real app you would verify credentials
+      if (email && password && contact && parentContact) {
+        // Store login status and username in localStorage
+        localStorage.setItem('isLoggedIn', 'true');
+        localStorage.setItem('username', email.split('@')[0]); // Get username from email
+        localStorage.setItem('contact', contact);
+        localStorage.setItem('parentContact', parentContact);
+        
+        // Show loading state
+        const btn = e.target.querySelector('button[type="submit"]');
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing In...';
+        btn.disabled = true;
+        
+        // Simulate API call
+        setTimeout(() => {
+          // Redirect to index page
+          window.location.href = '07_g1.html';
+        }, 1500);
+      }
+    });
+
+    // Check login status before accessing pages
+    function checkLogin(page) {
+      if (localStorage.getItem('isLoggedIn') !== 'true') {
+        const message = document.getElementById('loginMessage');
+        message.style.display = 'block';
+        message.textContent = 'Please login to access this page';
+        
+        // Scroll to login form
+        document.getElementById('login-section').scrollIntoView({
+          behavior: 'smooth'
+        });
+        
+        setTimeout(() => {
+          message.style.display = 'none';
+        }, 3000);
+        return false;
+      } else {
+        window.location.href = page;
+        return true;
+      }
+    }
+
+    // Logout functionality
+    document.getElementById('logoutBtn')?.addEventListener('click', function() {
+      localStorage.removeItem('isLoggedIn');
+      localStorage.removeItem('username');
+      localStorage.removeItem('contact');
+      localStorage.removeItem('parentContact');
+      window.location.href = 'index.html';
+    });
+  </script>
+</body>
+</html>
